@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Career Destiny — Discover Your Path</title>
+<meta property="og:title" content="Career Destiny — Discover Your Path"/>
+<meta property="og:description" content="Find the career you were born for. Takes 2 minutes."/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #080808;
+  --surface: #0f0f0f;
+  --surface2: #161616;
+  --border: #222222;
+  --border2: #2a2a2a;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --gold3: #f5e0a0;
+  --text: #f0ece4;
+  --muted: #6a6560;
+  --muted2: #8a857e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* Background texture */
+.bg-noise{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:0.4;
+}
+.bg-glow{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(201,168,76,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 80%, rgba(201,168,76,0.03) 0%, transparent 60%);
+}
+
+.wrap{position:relative;z-index:1;max-width:620px;margin:0 auto;padding:24px 20px 80px;}
+
+/* SCREENS */
+.screen{display:none;}
+.screen.active{display:block;animation:rise 0.6s cubic-bezier(0.16,1,0.3,1) forwards;}
+@keyframes rise{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── HERO ── */
+.hero{padding:80px 0 60px;text-align:center;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--border2);border-radius:100px;
+  padding:6px 16px;margin-bottom:32px;
+  font-size:0.72rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);
+}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:16px;height:1px;background:var(--gold);opacity:0.4;}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,9vw,5.5rem);
+  font-weight:300;line-height:1.05;
+  color:var(--text);margin-bottom:10px;
+  letter-spacing:-1px;
+}
+.hero h1 em{font-style:italic;color:var(--gold2);}
+.hero-sub{
+  font-size:0.95rem;color:var(--muted2);font-weight:300;
+  line-height:1.8;max-width:400px;margin:0 auto 48px;
+  letter-spacing:0.3px;
+}
+.hero-stats{
+  display:flex;justify-content:center;gap:40px;margin-bottom:52px;
+  flex-wrap:wrap;
+}
+.hero-stat{text-align:center;}
+.hero-stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:600;color:var(--gold2);
+  display:block;line-height:1;margin-bottom:4px;
+}
+.hero-stat-label{font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+.divider{
+  width:80px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:0 auto 52px;
+}
+
+/* ── BUTTONS ── */
+.btn-gold{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#c9a84c,#e8c97a,#c9a84c);
+  background-size:200% auto;
+  border:none;border-radius:4px;
+  padding:16px 48px;
+  font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:#080808;cursor:pointer;
+  transition:all 0.4s;
+  box-shadow:0 4px 40px rgba(201,168,76,0.2);
+}
+.btn-gold:hover{
+  background-position:right center;
+  box-shadow:0 8px 60px rgba(201,168,76,0.35);
+  transform:translateY(-2px);
+}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;
+  border:1px solid var(--border2);border-radius:4px;
+  padding:14px 32px;
+  font-family:'Outfit',sans-serif;font-size:0.8rem;font-weight:500;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted2);cursor:pointer;transition:all 0.3s;
+}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── PROGRESS ── */
+.progress-bar-wrap{margin-bottom:36px;}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+.progress-section{font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;}
+.progress-num{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--muted2);}
+.progress-track{height:1px;background:var(--border2);}
+.progress-thumb{height:1px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 0.6s cubic-bezier(0.4,0,0.2,1);}
+
+/* ── QUESTION ── */
+.q-card{margin-bottom:24px;}
+.q-number{
+  font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted);
+  margin-bottom:16px;font-weight:500;
+}
+.q-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.4rem,4vw,1.9rem);
+  font-weight:400;line-height:1.35;color:var(--text);
+  margin-bottom:8px;
+}
+.q-hint{font-size:0.82rem;color:var(--muted);font-style:italic;margin-bottom:32px;}
+
+/* ── OPTIONS ── */
+.options{display:grid;gap:10px;}
+.opt{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:16px 20px;
+  display:flex;align-items:center;gap:16px;
+  cursor:pointer;transition:all 0.25s;
+  text-align:left;color:var(--text);
+  font-family:'Outfit',sans-serif;font-size:0.9rem;font-weight:400;
+}
+.opt:hover{border-color:var(--gold);background:rgba(201,168,76,0.04);}
+.opt.selected{border-color:var(--gold2);background:rgba(201,168,76,0.08);color:var(--gold3);}
+.opt-marker{
+  width:24px;height:24px;border-radius:2px;
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.7rem;font-weight:600;letter-spacing:1px;color:var(--muted);
+  flex-shrink:0;transition:all 0.25s;font-family:'Outfit',sans-serif;
+}
+.opt.selected .opt-marker{background:var(--gold);border-color:var(--gold);color:#080808;}
+
+/* ── SCANNING ── */
+.scan-screen{text-align:center;padding:100px 20px;}
+.scan-icon{font-size:52px;margin-bottom:28px;display:block;}
+.scan-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem;font-weight:300;color:var(--text);margin-bottom:10px;
+}
+.scan-sub{font-size:0.85rem;color:var(--muted);letter-spacing:1px;}
+.scan-lines{margin-top:36px;display:flex;flex-direction:column;gap:8px;max-width:280px;margin-left:auto;margin-right:auto;}
+.scan-line{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:scanpulse 1.8s ease-in-out infinite;
+}
+.scan-line:nth-child(2){animation-delay:0.3s;opacity:0.6;}
+.scan-line:nth-child(3){animation-delay:0.6s;opacity:0.3;}
+@keyframes scanpulse{0%,100%{transform:scaleX(0.3);opacity:0.3;}50%{transform:scaleX(1);opacity:1;}}
+
+/* ── RESULT ── */
+.result-hero{
+  text-align:center;
+  padding:60px 0 40px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:40px;
+}
+.result-eyebrow{
+  font-size:0.68rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);font-weight:500;margin-bottom:20px;
+}
+.career-icon-wrap{
+  width:100px;height:100px;border-radius:50%;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;margin:0 auto 24px;
+  box-shadow:0 0 60px rgba(201,168,76,0.1);
+  position:relative;
+}
+.career-icon-wrap::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px solid rgba(201,168,76,0.15);
+}
+.career-icon-wrap::after{
+  content:'';position:absolute;inset:-16px;border-radius:50%;
+  border:1px solid rgba(201,168,76,0.07);
+}
+.result-career-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,7vw,3.5rem);
+  font-weight:300;color:var(--gold2);
+  line-height:1.1;margin-bottom:8px;letter-spacing:-0.5px;
+}
+.result-career-title{
+  font-size:0.78rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted2);margin-bottom:20px;font-weight:400;
+}
+.result-match{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,0.08);
+  border:1px solid rgba(201,168,76,0.2);
+  border-radius:100px;padding:8px 20px;
+  font-size:0.8rem;font-weight:500;color:var(--gold2);
+  margin-bottom:24px;
+}
+.match-dot{width:6px;height:6px;border-radius:50%;background:var(--gold2);animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.result-desc{
+  font-size:0.95rem;color:var(--muted2);line-height:1.85;
+  max-width:480px;margin:0 auto;font-weight:300;
+}
+
+/* ── SECTIONS ── */
+.section{margin-bottom:36px;}
+.section-label{
+  font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--muted);font-weight:500;margin-bottom:20px;
+  padding-bottom:12px;border-bottom:1px solid var(--border);
+}
+
+/* TRAITS */
+.traits-list{display:grid;gap:14px;}
+.trait-row{display:flex;align-items:center;gap:16px;}
+.trait-icon{font-size:1.2rem;width:32px;text-align:center;flex-shrink:0;}
+.trait-info{flex:1;}
+.trait-name-row{display:flex;justify-content:space-between;margin-bottom:6px;}
+.trait-name{font-size:0.82rem;font-weight:500;color:var(--text);}
+.trait-pct{font-size:0.78rem;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:600;}
+.trait-track{height:1px;background:var(--border2);}
+.trait-fill{height:1px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 1.2s cubic-bezier(0.4,0,0.2,1);}
+
+/* PATHS */
+.paths-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.path-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:4px;padding:16px;
+  transition:border-color 0.25s;
+}
+.path-card:hover{border-color:var(--border2);}
+.path-emoji{font-size:1.4rem;margin-bottom:8px;}
+.path-title{font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:4px;}
+.path-sub{font-size:0.75rem;color:var(--muted);line-height:1.5;}
+
+/* QUOTE */
+.quote-box{
+  border-left:2px solid var(--gold);
+  padding:20px 24px;
+  background:var(--surface);
+  border-radius:0 4px 4px 0;
+}
+.quote-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;font-style:italic;font-weight:300;
+  color:var(--text);line-height:1.7;margin-bottom:10px;
+}
+.quote-author{font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+/* SHARE */
+.share-block{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:4px;padding:32px;text-align:center;margin:28px 0;
+  position:relative;overflow:hidden;
+}
+.share-block::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.share-career{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.5rem;font-weight:300;color:var(--gold2);margin-bottom:4px;
+}
+.share-match-line{font-size:0.82rem;color:var(--muted2);margin-bottom:20px;}
+.share-site{font-size:0.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:16px;}
+
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);
+  background:var(--gold);color:#080808;
+  padding:12px 28px;border-radius:2px;
+  font-family:'Outfit',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:1px;
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);z-index:999;
+  text-transform:uppercase;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media(max-width:480px){
+  .paths-grid{grid-template-columns:1fr;}
+  .hero-stats{gap:24px;}
+}
+
+/* ── LOADER ── */
+#loader{
+  position:fixed;inset:0;z-index:9999;
+  background:#080808;
+  opacity:1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;
+}
+#loader.hide{opacity:0 !important;pointer-events:none;transition:opacity 0.7s ease;}
+.loader-inner{width:100%;max-width:560px;}
+.loader-topbar{display:flex;align-items:center;gap:8px;margin-bottom:20px;}
+.loader-dot{width:12px;height:12px;border-radius:50%;}
+.loader-dot.r{background:#ff5f57;} .loader-dot.y{background:#febc2e;} .loader-dot.g{background:#28c840;}
+.loader-title-bar{
+  flex:1;background:#111;border-radius:4px;
+  height:24px;display:flex;align-items:center;justify-content:center;
+  font-size:0.72rem;color:#444;letter-spacing:2px;font-family:'Courier New',monospace;
+}
+.loader-terminal{
+  background:#0a0a0a;border:1px solid #1a1a1a;border-radius:6px;
+  padding:24px;min-height:260px;
+  font-family:'Courier New',monospace;font-size:clamp(0.72rem,2vw,0.82rem);
+  line-height:1.9;overflow:hidden;
+}
+.t-line{display:flex;align-items:flex-start;gap:8px;opacity:0;animation:tappear 0.1s forwards;}
+@keyframes tappear{to{opacity:1;}}
+.t-prompt{color:var(--gold);flex-shrink:0;}
+.t-text{color:#888;}
+.t-text.gold{color:var(--gold2);}
+.t-text.green{color:#28c840;}
+.t-text.yellow{color:#febc2e;}
+.t-text.white{color:#f0ece4;font-weight:bold;}
+.t-text.muted{color:#333;}
+.t-cursor{display:inline-block;width:8px;height:14px;background:var(--gold);animation:blink3 0.8s step-end infinite;vertical-align:middle;margin-left:2px;}
+@keyframes blink3{0%,100%{opacity:1;}50%{opacity:0;}}
+.loader-progress-wrap{margin-top:20px;}
+.loader-progress-label{
+  display:flex;justify-content:space-between;
+  font-family:'Courier New',monospace;font-size:0.72rem;
+  color:#333;margin-bottom:8px;letter-spacing:1px;
+}
+.loader-progress-label span:last-child{color:var(--gold);}
+.loader-progress-track{height:2px;background:#1a1a1a;border-radius:2px;overflow:hidden;}
+.loader-progress-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:2px;transition:width 0.4s ease;
+}
+.loader-credit{
+  margin-top:18px;text-align:center;
+  font-family:'Courier New',monospace;font-size:0.78rem;color:#333;
+  opacity:0;transition:opacity 0.5s ease;
+}
+.loader-credit.show{opacity:1;}
+.loader-credit .author{color:var(--gold2);font-weight:bold;}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-inner">
+    <div class="loader-topbar">
+      <div class="loader-dot r"></div>
+      <div class="loader-dot y"></div>
+      <div class="loader-dot g"></div>
+      <div class="loader-title-bar">career-destiny — v1.0.0</div>
+    </div>
+    <div class="loader-terminal" id="terminal"></div>
+    <div class="loader-progress-wrap">
+      <div class="loader-progress-label">
+        <span>INITIALIZING</span>
+        <span id="loader-pct">0%</span>
+      </div>
+      <div class="loader-progress-track">
+        <div class="loader-progress-fill" id="loader-fill"></div>
+      </div>
+    </div>
+    <div class="loader-credit" id="loader-credit">
+      🛠️ Coded by <span class="author">Ayush Deep Verma</span>
+    </div>
+  </div>
+</div>
+
+<div class="bg-noise"></div>
+<div class="bg-glow"></div>
+<div class="wrap">
+
+<!-- HERO -->
+<div id="screen-hero" class="screen active">
+  <div class="hero">
+    <div class="hero-eyebrow">Career Intelligence</div>
+    <h1>Discover Your<br/><em>True Calling</em></h1>
+    <p class="hero-sub">A sophisticated career alignment system that combines personality analysis with situational intelligence to reveal the path you were born for.</p>
+    <div class="divider"></div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num">20</span><span class="hero-stat-label">Questions</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">40+</span><span class="hero-stat-label">Careers</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">2 min</span><span class="hero-stat-label">To Complete</span></div>
+    </div>
+    <button class="btn-gold" onclick="startQuiz()">Begin Assessment →</button>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="screen-quiz" class="screen">
+  <div class="progress-bar-wrap">
+    <div class="progress-top">
+      <span class="progress-section" id="q-section">Personality</span>
+      <span class="progress-num" id="q-num">01 / 20</span>
+    </div>
+    <div class="progress-track"><div class="progress-thumb" id="progress-thumb" style="width:0%"></div></div>
+  </div>
+  <div class="q-card">
+    <div class="q-number" id="q-number">Question 01</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-hint" id="q-hint"></div>
+  </div>
+  <div class="options" id="options"></div>
+</div>
+
+<!-- SCANNING -->
+<div id="screen-scan" class="screen">
+  <div class="scan-screen">
+    <span class="scan-icon">◈</span>
+    <div class="scan-title">Aligning Your Destiny</div>
+    <div class="scan-sub">Cross-referencing 40+ career profiles...</div>
+    <div class="scan-lines">
+      <div class="scan-line"></div>
+      <div class="scan-line"></div>
+      <div class="scan-line"></div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="screen-result" class="screen">
+  <div class="result-hero">
+    <div class="result-eyebrow">Your Career Destiny</div>
+    <div class="career-icon-wrap" id="result-icon"></div>
+    <div class="result-career-name" id="result-name"></div>
+    <div class="result-career-title" id="result-subtitle"></div>
+    <div class="result-match"><div class="match-dot"></div><span id="result-match-pct"></span></div>
+    <p class="result-desc" id="result-desc"></p>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Your Strength Profile</div>
+    <div class="traits-list" id="traits-list"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Career Paths to Explore</div>
+    <div class="paths-grid" id="paths-grid"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Words for Your Journey</div>
+    <div class="quote-box">
+      <div class="quote-text" id="quote-text"></div>
+      <div class="quote-author" id="quote-author"></div>
+    </div>
+  </div>
+
+  <div class="share-block">
+    <div class="section-label" style="border:none;margin-bottom:16px;">Share Your Result</div>
+    <div class="share-career" id="share-career"></div>
+    <div class="share-match-line" id="share-match-line"></div>
+    <div class="share-site">careerdestiny.github.io</div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-gold" onclick="copyResult()">Copy Result</button>
+    <button class="btn-outline" onclick="shareResult()">Share →</button>
+    <button class="btn-outline" onclick="retake()">Retake</button>
+  </div>
+</div>
+
+</div>
+<div class="toast" id="toast">Copied</div>
+
+<script>
+const questions = [
+  // PERSONALITY
+  { section:"Personality", text:"When you enter a room full of strangers, your instinct is to...", hint:"Trust your gut reaction.", options:["Scan for the most interesting person and approach them","Find a corner and observe before engaging","Head straight for the host or organiser","Start a conversation with whoever is nearest"], traits:[["leadership",15],["creativity",10],["analysis",5],["empathy",20]] },
+  { section:"Personality", text:"A close friend describes you in one word. Which feels most accurate?", hint:"Be honest, not aspirational.", options:["Visionary","Reliable","Analytical","Empathetic"], traits:[["creativity",25],["execution",25],["analysis",25],["empathy",25]] },
+  { section:"Personality", text:"You feel most alive when you are...", hint:"Think about your peak moments.", options:["Creating something from nothing","Leading others toward a goal","Solving a complex puzzle","Helping someone through difficulty"], traits:[["creativity",25],["leadership",25],["analysis",25],["empathy",25]] },
+  { section:"Personality", text:"Your relationship with rules is best described as...", hint:"No judgment — all answers are equal.", options:["I question rules that don't make sense","I follow rules to maintain order","I find ways to work within rules cleverly","I ignore rules when helping people requires it"], traits:[["creativity",20],["execution",20],["analysis",20],["empathy",20]] },
+  { section:"Personality", text:"When you make a big decision, you primarily rely on...", hint:"Your natural default process.", options:["Gut feeling and vision","Data, facts and research","Advice from people you trust","Your values and ethics"], traits:[["creativity",15],["analysis",20],["leadership",15],["empathy",15]] },
+
+  // SITUATIONAL
+  { section:"Situational", text:"Your team is stuck on a problem with no clear solution. You...", hint:"What would you naturally do?", options:["Propose a radical new approach","Gather more information before deciding","Delegate based on each person's strengths","Stay calm and keep morale high"], traits:[["creativity",20],["analysis",20],["leadership",20],["empathy",20]] },
+  { section:"Situational", text:"You have one free Saturday with no obligations. You spend it...", hint:"Your honest answer, not ideal answer.", options:["Starting a passion project","Organising and optimising something","Learning a new skill or reading","Spending quality time with people you love"], traits:[["creativity",20],["execution",20],["analysis",20],["empathy",20]] },
+  { section:"Situational", text:"You're given a presentation to deliver in 24 hours on a topic you barely know. You...", hint:"Under pressure, what's your move?", options:["Find an original angle that makes it memorable","Research obsessively and prepare meticulously","Ask experts and build on their knowledge","Focus on connecting with the audience emotionally"], traits:[["creativity",20],["analysis",20],["leadership",15],["empathy",20]] },
+  { section:"Situational", text:"Your ideal work environment looks like...", hint:"Be specific about what energizes you.", options:["A creative studio — chaotic, expressive, inspiring","A quiet focused space — minimal distractions","A collaborative office — ideas bouncing everywhere","A flexible setup — coffee shop, home, anywhere"], traits:[["creativity",20],["analysis",20],["leadership",15],["creativity",10]] },
+  { section:"Situational", text:"A project you've worked on for months gets cancelled. Your first reaction is...", hint:"Emotional intelligence in action.", options:["Frustration, but I'm already thinking of the next idea","Disappointment — I invested so much effort","I want to understand why, so I can improve","I check in on how the rest of the team is feeling"], traits:[["creativity",15],["execution",20],["analysis",20],["empathy",25]] },
+
+  // SKILLS
+  { section:"Skills & Values", text:"People most often come to you for...", hint:"What you're known for in your circle.", options:["Creative ideas and inspiration","Getting things done reliably","Making sense of complex information","Emotional support and advice"], traits:[["creativity",25],["execution",25],["analysis",25],["empathy",25]] },
+  { section:"Skills & Values", text:"Your superpower in any team is...", hint:"Where you naturally add the most value.", options:["Seeing possibilities others miss","Executing with precision and discipline","Asking the right questions","Reading the room and people's needs"], traits:[["creativity",25],["execution",25],["analysis",25],["empathy",25]] },
+  { section:"Skills & Values", text:"What drives you most in your work?", hint:"Your deepest professional motivator.", options:["Making something beautiful or original","Building systems that work perfectly","Understanding how things truly work","Positively impacting people's lives"], traits:[["creativity",25],["execution",20],["analysis",25],["empathy",30]] },
+  { section:"Skills & Values", text:"The skill you want to master most is...", hint:"Your honest ambition.", options:["Storytelling and communication","Strategy and execution","Research and critical thinking","Leadership and inspiration"], traits:[["creativity",20],["execution",20],["analysis",20],["leadership",25]] },
+  { section:"Skills & Values", text:"In five years, you see yourself...", hint:"Your gut answer, not the 'right' one.", options:["Having created something the world hasn't seen","Running a team or organisation","Being the best in your field technically","Changing lives in a meaningful way"], traits:[["creativity",25],["leadership",30],["analysis",25],["empathy",30]] },
+
+  // LIFESTYLE
+  { section:"Lifestyle & Values", text:"Money versus meaning — you choose...", hint:"Be brutally honest.", options:["Meaning above all else — I'll find a way","Both — I refuse to compromise on either","Money first, then I'll pursue meaning","Stability matters most to me"], traits:[["creativity",15],["leadership",20],["analysis",15],["empathy",20]] },
+  { section:"Lifestyle & Values", text:"Your ideal work rhythm is...", hint:"What energises you long-term.", options:["Intense bursts of creative energy","Consistent, disciplined daily routines","Deep focused research sprints","Flexible — driven by people's needs"], traits:[["creativity",20],["execution",25],["analysis",25],["empathy",20]] },
+  { section:"Lifestyle & Values", text:"How important is recognition to you?", hint:"No wrong answer here.", options:["Very — I want my work to be known","Not important — results speak for themselves","I care about respect from peers, not fame","Recognition through the lives I improve"], traits:[["creativity",15],["execution",15],["analysis",15],["empathy",15]] },
+  { section:"Lifestyle & Values", text:"The legacy you want to leave is...", hint:"Your deepest purpose.", options:["Work that outlives me — art, invention, ideas","An organisation or system still running","Knowledge and wisdom passed on","People whose lives I genuinely changed"], traits:[["creativity",30],["leadership",30],["analysis",30],["empathy",30]] },
+  { section:"Lifestyle & Values", text:"Finally — which sentence resonates deepest?", hint:"Let it choose you.", options:['"I am here to create."','"I am here to build."','"I am here to understand."','"I am here to serve."'], traits:[["creativity",40],["execution",40],["analysis",40],["empathy",40]] },
+];
+
+const careers = [
+  {
+    id:"creative-director", name:"Creative Director", icon:"🎨",
+    subtitle:"The Architect of Imagination",
+    match:97,
+    desc:"You possess a rare blend of vision and execution. Your mind naturally constructs worlds others haven't yet imagined — and you have the communication skill to bring others inside them. Creative direction is not just a career for you; it is self-expression at scale.",
+    traits:[{icon:"✦",name:"Visionary Thinking",pct:94},{icon:"◈",name:"Aesthetic Intelligence",pct:91},{icon:"▲",name:"Communication",pct:87},{icon:"◇",name:"Leadership",pct:82}],
+    paths:[{emoji:"🎬",title:"Film & Media",sub:"Director, Creative Lead, Art Director"},{emoji:"✦",title:"Brand Strategy",sub:"Brand Director, Identity Designer"},{emoji:"📖",title:"Publishing",sub:"Editor, Content Strategist"},{emoji:"🎮",title:"Game Design",sub:"Narrative Director, World Builder"}],
+    quote:'"Creativity is intelligence having fun."',author:"— Albert Einstein",
+    primary:"creativity"
+  },
+  {
+    id:"entrepreneur", name:"Entrepreneur", icon:"⚡",
+    subtitle:"The Builder of Worlds",
+    match:95,
+    desc:"You don't wait for opportunities — you manufacture them. Your combination of vision, risk tolerance, and execution makes you fundamentally entrepreneurial. You see systems where others see chaos, and potential where others see problems. The world is your canvas.",
+    traits:[{icon:"▲",name:"Strategic Vision",pct:96},{icon:"◈",name:"Risk Intelligence",pct:89},{icon:"✦",name:"Execution Drive",pct:92},{icon:"◇",name:"Resilience",pct:88}],
+    paths:[{emoji:"🚀",title:"Tech Startups",sub:"Founder, Co-Founder, CTO"},{emoji:"💼",title:"Business",sub:"CEO, Managing Director"},{emoji:"📊",title:"Investing",sub:"Angel Investor, VC Partner"},{emoji:"🌍",title:"Social Enterprise",sub:"Impact Founder, NGO Leader"}],
+    quote:'"The secret to getting ahead is getting started."',author:"— Mark Twain",
+    primary:"leadership"
+  },
+  {
+    id:"data-scientist", name:"Data Scientist", icon:"◈",
+    subtitle:"The Decoder of Reality",
+    match:94,
+    desc:"Your analytical mind finds patterns that others walk past entirely. You experience a quiet satisfaction when a complex system yields its secrets, and you trust numbers more than narratives. In a world drowning in data, you are exactly the kind of mind the future needs.",
+    traits:[{icon:"◈",name:"Analytical Depth",pct:97},{icon:"✦",name:"Pattern Recognition",pct:93},{icon:"▲",name:"Critical Thinking",pct:90},{icon:"◇",name:"Precision",pct:88}],
+    paths:[{emoji:"🤖",title:"Artificial Intelligence",sub:"ML Engineer, AI Researcher"},{emoji:"📊",title:"Business Analytics",sub:"Data Analyst, BI Specialist"},{emoji:"🔬",title:"Research",sub:"Research Scientist, Statistician"},{emoji:"💹",title:"Finance",sub:"Quant Analyst, Risk Modeller"}],
+    quote:'"In God we trust. All others must bring data."',author:"— W. Edwards Deming",
+    primary:"analysis"
+  },
+  {
+    id:"therapist", name:"Counsellor & Therapist", icon:"◇",
+    subtitle:"The Healer of Souls",
+    match:93,
+    desc:"Your emotional intelligence is extraordinary — a gift that allows you to hold space for human complexity without judgment. People feel seen in your presence. You listen not to respond but to understand. In a world that desperately needs healing, your calling is among the most profound.",
+    traits:[{icon:"◇",name:"Emotional Intelligence",pct:98},{icon:"✦",name:"Deep Listening",pct:95},{icon:"◈",name:"Empathic Accuracy",pct:92},{icon:"▲",name:"Patience",pct:90}],
+    paths:[{emoji:"🧠",title:"Psychology",sub:"Clinical Psychologist, Therapist"},{emoji:"💚",title:"Counselling",sub:"Life Coach, Relationship Counsellor"},{emoji:"🏫",title:"Education",sub:"School Counsellor, Mentor"},{emoji:"🌿",title:"Wellness",sub:"Mindfulness Coach, Wellbeing Lead"}],
+    quote:'"The most important thing in communication is hearing what isn\'t said."',author:"— Peter Drucker",
+    primary:"empathy"
+  },
+  {
+    id:"strategist", name:"Strategist", icon:"▲",
+    subtitle:"The Master of the Long Game",
+    match:92,
+    desc:"Your mind operates several moves ahead of most. You see the entire board — not just the next step — and you understand how decisions cascade into consequences. Strategy is your native language, and complex challenges are where you come alive.",
+    traits:[{icon:"▲",name:"Strategic Foresight",pct:95},{icon:"◈",name:"Systems Thinking",pct:91},{icon:"✦",name:"Decision Intelligence",pct:89},{icon:"◇",name:"Influence",pct:85}],
+    paths:[{emoji:"♟",title:"Management Consulting",sub:"Strategy Consultant, Partner"},{emoji:"🏛",title:"Policy & Government",sub:"Policy Advisor, Political Strategist"},{emoji:"📈",title:"Corporate Strategy",sub:"Chief Strategy Officer"},{emoji:"🌍",title:"International Affairs",sub:"Diplomat, NGO Strategist"}],
+    quote:'"Strategy without tactics is the slowest route to victory."',author:"— Sun Tzu",
+    primary:"leadership"
+  }
+];
+
+const traitKeys = ["creativity","leadership","analysis","empathy","execution"];
+let scores = {creativity:0,leadership:0,analysis:0,empathy:0,execution:0};
+let current = 0;
+
+function startQuiz(){
+  scores = {creativity:0,leadership:0,analysis:0,empathy:0,execution:0};
+  current = 0;
+  showScreen('quiz');
+  renderQ();
+}
+
+function showScreen(s){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.getElementById('screen-'+s).classList.add('active');
+}
+
+function renderQ(){
+  const q = questions[current];
+  const pct = Math.round((current/questions.length)*100);
+  document.getElementById('progress-thumb').style.width = pct+'%';
+  document.getElementById('q-section').textContent = q.section;
+  document.getElementById('q-num').textContent = String(current+1).padStart(2,'0')+' / '+questions.length;
+  document.getElementById('q-number').textContent = 'Question '+String(current+1).padStart(2,'0');
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-hint').textContent = q.hint;
+  const opts = document.getElementById('options');
+  opts.innerHTML='';
+  const letters=['A','B','C','D'];
+  q.options.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML=`<span class="opt-marker">${letters[i]}</span>${o}`;
+    btn.onclick=()=>pick(i,btn,q);
+    opts.appendChild(btn);
+  });
+}
+
+function pick(i,btn,q){
+  document.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  // Add trait score
+  const trait = q.traits[i];
+  scores[trait[0]] = (scores[trait[0]]||0) + trait[1];
+  setTimeout(()=>{
+    current++;
+    if(current<questions.length){ renderQ(); }
+    else{ calculate(); }
+  },350);
+}
+
+function calculate(){
+  showScreen('scan');
+  setTimeout(()=>{
+    // Find best matching career
+    const top = Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
+    let career;
+    if(top==='creativity') career = careers[0];
+    else if(top==='leadership' || top==='execution') career = scores.execution>scores.leadership ? careers[1] : careers[4];
+    else if(top==='analysis') career = careers[2];
+    else career = careers[3];
+    showResult(career);
+  }, 2800);
+}
+
+function showResult(c){
+  showScreen('result');
+  document.getElementById('result-icon').textContent = c.icon;
+  document.getElementById('result-name').textContent = c.name;
+  document.getElementById('result-subtitle').textContent = c.subtitle;
+  document.getElementById('result-match-pct').textContent = c.match+'% Match — Your Natural Calling';
+  document.getElementById('result-desc').textContent = c.desc;
+
+  // Traits
+  const tl = document.getElementById('traits-list');
+  tl.innerHTML='';
+  c.traits.forEach(t=>{
+    tl.innerHTML+=`
+      <div class="trait-row">
+        <div class="trait-icon">${t.icon}</div>
+        <div class="trait-info">
+          <div class="trait-name-row">
+            <span class="trait-name">${t.name}</span>
+            <span class="trait-pct">${t.pct}%</span>
+          </div>
+          <div class="trait-track"><div class="trait-fill" style="width:0%" data-w="${t.pct}%"></div></div>
+        </div>
+      </div>`;
+  });
+  setTimeout(()=>{
+    document.querySelectorAll('.trait-fill').forEach(el=>{el.style.width=el.dataset.w;});
+  },200);
+
+  // Paths
+  const pg = document.getElementById('paths-grid');
+  pg.innerHTML='';
+  c.paths.forEach(p=>{
+    pg.innerHTML+=`<div class="path-card"><div class="path-emoji">${p.emoji}</div><div class="path-title">${p.title}</div><div class="path-sub">${p.sub}</div></div>`;
+  });
+
+  // Quote
+  document.getElementById('quote-text').textContent = c.quote;
+  document.getElementById('quote-author').textContent = c.author;
+
+  // Share
+  document.getElementById('share-career').textContent = c.name;
+  document.getElementById('share-match-line').textContent = `${c.match}% match — ${c.subtitle}`;
+}
+
+function copyResult(){
+  const name = document.getElementById('result-name').textContent;
+  const match = document.getElementById('result-match-pct').textContent;
+  const text = `✦ Career Destiny Result ✦\n\nMy career destiny: ${name}\n${match}\n\nDiscover yours → careerdestiny.github.io`;
+  navigator.clipboard.writeText(text).then(()=>showToast('COPIED'));
+}
+
+function shareResult(){
+  const name = document.getElementById('result-name').textContent;
+  const text = `✦ I just discovered my career destiny: ${name}\n\nFind yours in 2 minutes → careerdestiny.github.io`;
+  if(navigator.share){ navigator.share({title:'Career Destiny',text}); }
+  else{ window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank'); }
+}
+
+function retake(){
+  scores={creativity:0,leadership:0,analysis:0,empathy:0,execution:0};
+  current=0;
+  showScreen('hero');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── LOADER ──
+document.documentElement.style.overflow = 'hidden';
+
+(function(){
+  const lines = [
+    { text: "Booting career_destiny.js ...", color: "gold", delay: 300 },
+    { text: "Importing psychometric_framework.json ... ✓", color: "green", delay: 700 },
+    { text: "Loading career_profiles.db ... [42 career paths found]", color: "", delay: 1100 },
+    { text: "Calibrating personality_matrix algorithm ...", color: "", delay: 1480 },
+    { text: "Cross-referencing trait_scoring engine ... ✓", color: "green", delay: 1850 },
+    { text: "WARNING: Exceptional career alignment probability detected", color: "yellow", delay: 2200 },
+    { text: "Rendering luxury UI components ... ✓", color: "green", delay: 2520 },
+    { text: "Compiling 20 intelligence questions ...", color: "", delay: 2850 },
+    { text: "// Coded 🛠️ by Ayush Deep Verma", color: "gold", delay: 3180 },
+    { text: "// github.com/ayushdeepverma", color: "muted", delay: 3480 },
+    { text: "SYSTEM READY — Launching Career Destiny ✦", color: "white", delay: 3800 },
+  ];
+
+  const terminal = document.getElementById('terminal');
+  const fill = document.getElementById('loader-fill');
+  const pct = document.getElementById('loader-pct');
+  const credit = document.getElementById('loader-credit');
+  const loader = document.getElementById('loader');
+
+  let cursor = document.createElement('span');
+  cursor.className = 't-cursor';
+  terminal.appendChild(cursor);
+
+  lines.forEach((l, i) => {
+    setTimeout(() => {
+      const row = document.createElement('div');
+      row.className = 't-line';
+      row.innerHTML = `<span class="t-prompt">$</span><span class="t-text ${l.color}">${l.text}</span>`;
+      terminal.insertBefore(row, cursor);
+      const p = Math.round(((i+1)/lines.length)*100);
+      fill.style.width = p + '%';
+      pct.textContent = p + '%';
+      if (i >= lines.length - 3) credit.classList.add('show');
+      terminal.scrollTop = terminal.scrollHeight;
+    }, l.delay);
+  });
+
+  // Step 1: fade out
+  setTimeout(() => {
+    document.documentElement.style.overflow = '';
+    loader.style.transition = 'opacity 0.7s ease';
+    loader.style.opacity = '0';
+    // Step 2: fully hide after fade
+    setTimeout(() => {
+      loader.style.display = 'none';
+    }, 750);
+  }, 4600);
+})();
+</script>
+</body>
+</html>
